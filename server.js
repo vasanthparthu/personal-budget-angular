@@ -4,29 +4,14 @@ const port=3000;
 
 app.use('/', express.static('public'));
 
-const budget = {
-    myBudget: [
-        {
-            title: 'Eat out',
-            budget: 30
-        },
-        {
-            title: 'Rent',
-            budget: 350
-        },
-        {
-            title: 'Groceries',
-            budget: 90
-        }
-    ]
-};
+
 
 
 app.get('/', (req,res) => {
     res.send('Hello world');
     });
     app.get('/budget', (req, res) => {
-        res.json(budget);
+        res.sendFile("C:\\Users\\VASANTH\\Desktop\\NBAD\\personal-budget\\personal-budget.json");
     })
 
 app.listen(port, () => {
