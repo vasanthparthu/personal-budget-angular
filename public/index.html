@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- This is an SEO change -->
+        <meta charset="UTF-8">
+        <!-- This is an SEO change -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- This is an SEO change -->
+        <meta name="description" content="A simple tool about personal-budget management" />
+        <!-- This is an SEO change -->
+        <meta property="og:title" content="Personal Budget management" />
+        <!-- This is an SEO change -->
+        <meta property="og:url" content="http://personal-budget" />
+        <!-- This is an SEO change -->
+        <meta property="og:image" content="/bg.png" alt="image from the background" />
+        <!-- This is an SEO change -->
+        <meta property="keywords" content="meta keywords, financial management, personal-budget, budgeting management" />
+        <!-- This is an SEO change -->
+        <title>Personal Budget</title>
+        <link rel="stylesheet" href="./reset.css">
+        <link rel="stylesheet" href="./main.css">
+    </head>
+
+    <body>
+        <header>
+            
+            <div class="menu">
+                <ul>
+                    <li><a href="./index.html">Homepage</a></li>
+                    <li><a href="./about.html">About</a></li>
+                    <li><a href="./login.html">Login</a></li>
+                    <li><a href="https://google.com">Google</a></li>
+                    
+                </ul>
+            </div>
+        </header>
+
+        <main>
+            <div class="hero">
+                <h1>Personal Budget</h1>
+                <h2>A personal-budget management app</h2>
+            </div>
+
+            <div class="container center">
+
+                <div class="page-area">
+
+                    <!-- this is a Semantic HTML change -->
+                    <article class="text-box">
+                        <h1 id="main">Stay on track</h1>
+                        <p>
+                            Do you know where you are spending your money? If you really stop to track it down,
+                            you would get surprised! Proper budget management depends on real data... and this
+                            app will help you with that!
+                        </p>
+                    </article>
+            
+                    <!-- this is a Semantic HTML change -->
+                    <article class="text-box">
+                        <h1>Alerts</h1>
+                        <p>
+                            What if your clothing budget ended? You will get an alert. The goal is to never go over the budget.
+                        </p>
+                    </article>
+            
+                    <!-- this is a Semantic HTML change -->
+                    <article class="text-box">
+                        <h1>Results</h1>
+                        <p>
+                            People who stick to a financial plan, budgeting every expense, get out of debt faster!
+                            Also, they to live happier lives... since they expend without guilt or fear... 
+                            because they know it is all good and accounted for.
+                        </p>
+                    </article>
+            
+                    <!-- this is a Semantic HTML change -->
+                    <article class="text-box">
+                        <h1>Free</h1>
+                        <p>
+                            <canvas id="myChart" width="400", height="400"></canvas>
+                        </p>
+                    </article>
+
+                </div>
+
+            </div>
+        </main>
+
+        <footer>
+            <div class="bottom">
+                <div class="center">
+                    All rights reserved &copy; Vasanth Parthu Aduvala
+                </div>
+            </div>
+        </footer>
+
+        <!-- This is an A11y change -->
+        <li> <a class="skip-to-content-link" href="#main">SKIP TO CONTENT</a></li>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.5.0/axios.min.js" integrity="sha512-aoTNnqZcT8B4AmeCFmiSnDlc4Nj/KPaZyB5G7JnOnUEkdNpCZs1LCankiYi01sLTyWy+m2P+W4XM+BuQ3Q4/Dg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.min.js" integrity="sha512-7U4rRB8aGAHGVad3u2jiC7GA5/1YhQcQjxKeaVms/bT66i3LVBMRcBI9KwABNWnxOSwulkuSXxZLGuyfvo7V1A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <script>
+            var dataSource = {
+                datasets: [
+                    {
+                        data: [30,40,50],
+                        backgroundColor: [
+                            '#FFB833',
+                            '#F0FF33',
+                            '#33FFDD',
+                            '#3349FF',
+                            '#FF337D'
+                        ]
+                    }
+                ],
+                labels: [
+                    'Eat out',
+                    'Rent',
+                    'Grocerries'
+                ]
+            };
+
+            function createChart() {
+                var ctx = document.getElementById('myChart').getContext('2d');
+                var myPieChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: dataSource
+                })
+            }
+
+            function getBudget() {
+                axios.get('/budget')
+                .then(function (res)
+                {
+                    console.log(res.data);
+                    for(var i = 0; i < res.data.myBudget.length; i++)
+                    {
+                        dataSource.datasets[0].data[i] = res.data.myBudget[i].budget;
+                        dataSource.labels[i] = res.data.myBudget[i].title;
+                    }
+                    createChart();
+                });
+            }
+            getBudget();
+        </script>
+    </body>
+</html>
